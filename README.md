@@ -89,6 +89,91 @@ Each detection rule produces transaction-level hits with a risk_score and detect
 Each query exposes its thresholds as a `params` CTE at the top, returns a
 `risk_score` in `[0,1]`, and tags rows with a `detection_rule` label.
 
+## Example Detection Outputs
+
+### Card Testing Velocity Detection
+
+Detects card-testing behavior where many distinct cards are attempted from the same device or IP in a short time window, often with high decline rates and low-dollar authorization attempts.
+
+Signals include:
+
+- High distinct card count
+- Elevated decline rate
+- Low average transaction amount
+- Shared device or IP activity
+
+![Card Testing Velocity Detection](assets/card_testing_velocity_output.png)
+
+### Account Takeover (ATO) Detection
+
+Detects successful logins following multiple failed authentication attempts, followed by unusually large payments within a defined time window.
+
+Signals include:
+
+- Failed login velocity
+- New country or device usage
+- High-value post-login spend
+- Login-to-payment proximity
+
+![ATO Detection](assets/ato_login_payment_mismatch_output.png)
+
+### Merchant Abuse Detection
+
+Identifies merchants with decline rates significantly above peer baselines, which may indicate merchant abuse, bust-out behavior, laundering risk, or concentrated card-testing activity.
+
+Signals include:
+
+- Elevated merchant decline rate
+- High distinct card activity
+- Unusual merchant transaction concentration
+- Peer-group anomaly behavior
+
+![Merchant Abuse Detection](assets/merchant_abuse_detection_output.png)
+
+### Anomalous Cluster Detection
+
+Detects shared identifiers such as devices or IP addresses fanning out across multiple accounts, which may indicate fraud rings, mule networks, or coordinated account abuse.
+
+Signals include:
+
+- Shared device or IP usage
+- High account fan-out
+- Concentrated transaction activity
+- Linked-account clustering
+
+![Anomalous Cluster Detection](assets/anomalous_cluster_detection_output.png)
+
+### High-Risk Payment Velocity Detection
+
+Detects accounts exhibiting unusually high transaction volume and spend accumulation within a rolling 24-hour period, which may indicate bust-out fraud, mule account activity, synthetic identity abuse, or rapid cash-out behavior.
+
+Signals include:
+
+- Elevated rolling 24-hour spend
+- High rolling transaction volume
+- Pending or incomplete KYC status
+- High-risk customer segmentation
+- Rapid transaction accumulation
+
+![High-Risk Payment Velocity Detection](assets/payment_velocity_output.png)
+
+### Precision / Recall Monitoring
+
+Evaluates detection results against confirmed-fraud labels to measure rule effectiveness and support threshold tuning.
+
+Signals include:
+
+- True positives
+- False positives
+- False negatives
+- True negatives
+- Precision
+- Recall
+- False-positive rate
+- F1 score
+
+![Precision Recall Monitoring](assets/precision_recall_monitoring.png)
+
 ## Quick start (Snowflake)
 
 ```sql
