@@ -19,44 +19,60 @@
 
 WITH params AS (
     SELECT
-        4       AS min_accounts_per_identifier,  -- fan-out to flag
-        7       AS lookback_days
+        2 AS min_accounts_per_identifier,
+        30 AS lookback_days
 ),
 identifier_links AS (
-    -- Unpivot device_id and ip_address into a single (id_type, id_value) grain.
-    SELECT id_type, id_value, account_id, transaction_id, created_at
-    FROM FRAUD.TRANSACTIONS
-    UNPIVOT (id_value FOR id_type IN (device_id AS 'DEVICE', ip_address AS 'IP'))
-    WHERE id_value IS NOT NULL
+    SELECT
+        'DEVICE_ID' AS id_type,
+        device_id AS id_value,
+        account_id,
+        transaction_id,
+        created_at
+    FROM TRANSACTIONS
+    WHERE device_id IS NOT NULL
+
+    UNION ALL
+
+    SELECT
+        'IP_ADDRESS' AS id_type,
+        ip_address AS id_value,
+        account_id,
+        transaction_id,
+        created_at
+    FROM TRANSACTIONS
+    WHERE ip_address IS NOT NULL
 ),
 recent AS (
     SELECT *
     FROM identifier_links
-    -- Anchor lookback to the latest event in the dataset for portability.
-    WHERE created_at >= DATEADD('day', -(SELECT lookback_days FROM params),
-                                (SELECT MAX(created_at) FROM FRAUD.TRANSACTIONS))
+    WHERE created_at >= DATEADD(
+        'day',
+        -(SELECT lookback_days FROM params),
+        (SELECT MAX(created_at) FROM TRANSACTIONS)
+    )
 ),
 clusters AS (
     SELECT
         id_type,
         id_value,
-        COUNT(DISTINCT account_id)         AS distinct_accounts,
-        COUNT(DISTINCT transaction_id)     AS txn_count,
-        ARRAY_AGG(DISTINCT account_id)     AS linked_accounts,
-        MIN(created_at)                     AS first_seen,
-        MAX(created_at)                     AS last_seen
+        COUNT(DISTINCT account_id) AS distinct_accounts,
+        COUNT(DISTINCT transaction_id) AS txn_count,
+        ARRAY_AGG(DISTINCT account_id) AS linked_accounts,
+        MIN(created_at) AS first_seen,
+        MAX(created_at) AS last_seen
     FROM recent
     GROUP BY 1, 2
 )
 SELECT
     id_type,
-    id_value                                              AS shared_identifier,
+    id_value AS shared_identifier,
     distinct_accounts,
     txn_count,
     linked_accounts,
     first_seen,
     last_seen,
-    ROUND(LEAST(distinct_accounts / 10.0, 1), 3)          AS risk_score,
+    ROUND(LEAST(distinct_accounts / 10.0, 1), 3) AS risk_score,
     'ANOMALOUS_CLUSTER' AS detection_rule
 FROM clusters
 CROSS JOIN params p
