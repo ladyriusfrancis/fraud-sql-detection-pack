@@ -102,7 +102,7 @@ Signals include:
 - Low average transaction amount
 - Shared device or IP activity
 
-![Card Testing Velocity Detection](assets:card_testing_velocity_output.png)
+![Card Testing Velocity Detection](assets/card_testing_velocity_output.png)
 
 ### Account Takeover (ATO) Detection
 
@@ -115,7 +115,7 @@ Signals include:
 - High-value post-login spend
 - Login-to-payment proximity
 
-![ATO Detection](assets:ato_login_payment_mismatch_output.png)
+![ATO Detection](assets/ato_login_payment_mismatch_output.png)
 
 ### Merchant Abuse Detection
 
@@ -128,7 +128,7 @@ Signals include:
 - Unusual merchant transaction concentration
 - Peer-group anomaly behavior
 
-![Merchant Abuse Detection](assets:merchant_abuse_detection_output.png)
+![Merchant Abuse Detection](assets/merchant_abuse_detection_output.png)
 
 ### Anomalous Cluster Detection
 
@@ -141,7 +141,7 @@ Signals include:
 - Concentrated transaction activity
 - Linked-account clustering
 
-![Anomalous Cluster Detection](assets:anomalous_cluster_detection_output.png)
+![Anomalous Cluster Detection](assets/anomalous_cluster_detection_output.png)
 
 ### High-Risk Payment Velocity Detection
 
@@ -155,7 +155,7 @@ Signals include:
 - High-risk customer segmentation
 - Rapid transaction accumulation
 
-![High-Risk Payment Velocity Detection](assets:payment_velocity_output.png)
+![High-Risk Payment Velocity Detection](assets/payment_velocity_output.png)
 
 ### Precision / Recall Monitoring
 
