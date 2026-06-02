@@ -1,5 +1,10 @@
 # Fraud SQL Detection Pack
 
+![SQL Lint](https://github.com/ladyriusfrancis/fraud-sql-detection-pack/actions/workflows/sql_lint.yml/badge.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Snowflake](https://img.shields.io/badge/SQL-Snowflake-blue)
+![Fraud Analytics](https://img.shields.io/badge/Domain-Fraud%20Analytics-green)
+
 A library of reusable, production-minded SQL detection queries for the most
 common payment-fraud typologies — **card testing, account takeover (ATO),
 merchant abuse, anomalous identifier clusters, and high-risk spend velocity** —
