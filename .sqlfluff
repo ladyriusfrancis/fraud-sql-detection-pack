@@ -1,0 +1,14 @@
+[sqlfluff]
+dialect = snowflake
+templater = raw
+max_line_length = 120
+# Detection SQL favors readability over strict layout rules; relax the
+# noisiest layout checks while keeping correctness-oriented linting.
+exclude_rules = LT05, LT02, ST06, RF02, RF03, AL09, CP02
+
+[sqlfluff:indentation]
+indent_unit = space
+tab_space_size = 4
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
