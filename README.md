@@ -11,6 +11,17 @@ merchant abuse, anomalous identifier clusters, and high-risk spend velocity** â€
 with a built-in **precision/recall monitoring** harness so every rule's
 performance can be measured against confirmed-fraud labels.
 
+## Key Capabilities
+
+- Card Testing Detection
+- Account Takeover (ATO) Detection
+- Merchant Abuse Analytics
+- Fraud Ring / Cluster Detection
+- High-Risk Payment Velocity Monitoring
+- Precision / Recall Performance Measurement
+- Snowflake-Compatible SQL
+- Synthetic Fraud Dataset for Testing and Evaluation
+
 Snowflake-compatible SQL, with dialect notes for BigQuery and Postgres.
 
 ---
