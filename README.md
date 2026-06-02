@@ -15,6 +15,20 @@ Snowflake-compatible SQL, with dialect notes for BigQuery and Postgres.
 
 ---
 
+## Business Impact
+
+This project demonstrates how fraud teams can move from static rule-writing to measurable fraud detection performance.
+
+The framework is designed to help teams:
+
+- Reduce false positives by tuning thresholds against confirmed-fraud labels
+- Improve recall by identifying missed fraud patterns across payment activity
+- Monitor rule drift before fraud losses or chargebacks increase
+- Compare rule performance using precision, recall, false-positive rate, and F1
+- Protect customer experience by balancing fraud prevention with unnecessary friction
+
+The goal is not just to detect suspicious activity, but to measure whether each detection rule is still effective over time.
+
 ## Why this exists
 
 Most fraud rules rot silently. A velocity threshold that was sharp last
@@ -25,6 +39,28 @@ monitoring query reports live precision, recall, false-positive rate, and F1
 per rule against ground-truth labels. Rules and their evaluation live
 together, version-controlled, so you can tune thresholds with evidence
 instead of intuition.
+
+## Detection Architecture
+
+```mermaid
+flowchart TD
+    A[Transactions & Labels]
+    B[Detection Rules]
+    C[Rule Hits]
+    D[Precision/Recall Harness]
+    E[Rule Performance Monitoring]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+
+    E --> F[Precision]
+    E --> G[Recall]
+    E --> H[False Positive Rate]
+    E --> I[F1 Score]
+```
+Each detection rule produces transaction-level hits with a risk_score and detection_rule label. Those hits are evaluated against confirmed-fraud labels to measure rule performance. Detection rules generate transaction-level alerts that are evaluated against confirmed fraud labels. The monitoring harness calculates precision, recall, false-positive rate, and F1 score to quantify rule effectiveness and support threshold tuning.
 
 ## What's inside
 
