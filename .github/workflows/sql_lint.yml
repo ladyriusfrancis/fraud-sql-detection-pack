@@ -1,0 +1,29 @@
+name: SQL Lint
+
+# Lints all SQL in the pack with SQLFluff (Snowflake dialect) on every push
+# and pull request. Keeps the detection library production-minded and
+# consistently formatted.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  sqlfluff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install SQLFluff
+        run: pip install "sqlfluff==3.*"
+
+      - name: Lint SQL
+        run: sqlfluff lint queries evaluation schema tests --dialect snowflake
